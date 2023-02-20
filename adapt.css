@@ -1,0 +1,9 @@
+@media screen and (max-width: 500px) {
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20rem;
+    margin-top: 0rem;
+}
+}
