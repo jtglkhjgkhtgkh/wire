@@ -1,9 +1,11 @@
 @media screen and (max-width: 500px) {
-.search {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20rem;
-    margin-top: 0rem;
-}
+    input#searchInput.message {
+        border: none;
+        font-size: 18px;
+        padding-right: 3rem;
+        color: white;
+        outline: none;
+        padding-left: 3.5rem;
+        width: 15rem;
+      }
 }
