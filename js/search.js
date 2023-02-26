@@ -3,19 +3,28 @@ const searchInput = document.getElementById('searchInput');
 const searchImg = document.getElementById('search-img');
 const searchBtn = document.getElementById('search-btn');
 
-let currentSearchEngine = 'google'; // по умолчанию используется поиск Google
+let currentSearchEngine = localStorage.getItem('currentSearchEngine') || 'google'; // по умолчанию используется поиск Google
+searchImg.src = currentSearchEngine === 'google' ? 'https://zinteg.github.io/files/img/google.svg' : currentSearchEngine === 'yandex' ? 'https://zinteg.github.io/files/img/yandex.svg' : 'https://zinteg.github.io/files/img/bing.svg';
 
 // функция для смены поисковой системы
 function changeSearchEngine() {
-  currentSearchEngine = currentSearchEngine === 'google' ? 'yandex' : 'google';
-  searchImg.src = currentSearchEngine === 'google' ? 'https://zinteg.github.io/files/img/google.svg' : 'https://zinteg.github.io/files/img/yandex.svg';
+  currentSearchEngine = currentSearchEngine === 'google' ? 'yandex' : currentSearchEngine === 'yandex' ? 'bing' : 'google';
+  localStorage.setItem('currentSearchEngine', currentSearchEngine);
+  searchImg.src = currentSearchEngine === 'google' ? 'https://zinteg.github.io/files/img/google.svg' : currentSearchEngine === 'yandex' ? 'https://zinteg.github.io/files/img/yandex.svg' : 'https://zinteg.github.io/files/img/bing.svg';
 }
 
 // функция для отправки запроса
 function submitSearch() {
   const searchText = searchInput.value;
   if (searchText.trim() !== '') {
-    const searchUrl = currentSearchEngine === 'google' ? `https://www.google.com/search?q=${searchText}` : `https://yandex.ru/search/?text=${searchText}`;
+    let searchUrl = '';
+    if (currentSearchEngine === 'google') {
+      searchUrl = `https://www.google.com/search?q=${searchText}`;
+    } else if (currentSearchEngine === 'yandex') {
+      searchUrl = `https://yandex.ru/search/?text=${searchText}`;
+    } else {
+      searchUrl = `https://www.bing.com/search?q=${searchText}`;
+    }
     window.open(searchUrl, '_blank');
   }
 }
@@ -36,20 +45,3 @@ searchImg.addEventListener('click', function(event) {
   event.preventDefault();
   changeSearchEngine();
 });
-
-// сохранение текущей поисковой системы при закрытии страницы
-window.addEventListener('beforeunload', function() {
-  localStorage.setItem('currentSearchEngine', currentSearchEngine);
-  });
-  
-  // получение сохраненной поисковой системы при загрузке страницы (если есть)
-  window.addEventListener('load', function() {
-  const savedSearchEngine = localStorage.getItem('currentSearchEngine');
-  if (savedSearchEngine === 'yandex') {
-  currentSearchEngine = 'yandex';
-  searchImg.src = 'https://zinteg.github.io/files/img/yandex.svg';
-  } else {
-  currentSearchEngine = 'google';
-  searchImg.src = 'https://zinteg.github.io/files/img/google.svg';
-  }
-  });
