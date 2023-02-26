@@ -28,4 +28,8 @@
       width: 18.75rem;
       user-select: none;
     }
+    .popup-content p {
+      margin-left: 3rem;
+      margin-right: 3rem;
+    }
 }
